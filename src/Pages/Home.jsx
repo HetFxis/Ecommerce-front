@@ -16,13 +16,14 @@ import Banner from "../Components/Banner";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const {userid,IsAthenticated}=useSelector(state=>state.auth)
- 
+   const baseURL = import.meta.env.VITE_BACKEND_URL;
+
   const [wishlist, setWishlist] = useState({});
    const [hoveredProduct, setHoveredProduct] = useState(null); // Track which product is hovered
   const dispatch =useDispatch()
   const navigate=useNavigate()
   useEffect(() => {
-        axios.get("https://ecommerce-backend-18rw.onrender.com/products/"
+        axios.get(`${baseURL}/products/`
     )
       .then((response) => {
         setProducts(response.data);

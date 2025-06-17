@@ -13,7 +13,7 @@ const AboutPage = () => {
             Stylish Clothing. Timeless Elegance.
           </h1>
           <p className="text-lg md:text-2xl mb-4">
-            Discover the latest trends with our unique collection of stylish cloth.
+            Discover the latest trends with our unique collection of stylish clothes.
           </p>
           
         </div>

@@ -11,13 +11,14 @@ const ProductList = ({ selectedCategory,selectedPrice }) => {
   const { token } = useSelector(state => state.auth);
   const [wishlist, setWishlist] = useState({});
   const [hoveredProduct, setHoveredProduct] = useState(null); // Track which product is hovered
+   const baseURL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const url = selectedCategory
-          ? `https://ecommerce-backend-18rw.onrender.com/products/?category=${selectedCategory}`
-          : 'https://ecommerce-backend-18rw.onrender.com/products/';
+          ? `${baseURL}/products/?category=${selectedCategory}`
+          : `${baseURL}/products/`;
         const response = await axios.get(url);
         setProducts(response.data);
       } catch (error) {

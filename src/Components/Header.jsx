@@ -43,12 +43,12 @@ const Header = () => {
   };
 
   return (
-    <header className="shadow-md py-4 px-5 bg-white relative">
+    <header className="shadow-md py-4 px-1 md:px-5 bg-white relative">
       <div className=" flex max-w-7xl mx-auto justify-between items-center">
-      <Link to="/">
-      <div className="flex w-12">
-        <img src={logo} alt="" classname="  "/>
-          <div className="md:text-2xl font-bold">ClothingStore</div>
+      <Link to="/" className=''>
+      <div className="flex w-12 place-items-center">
+        <img src={logo} alt="" classname=" "/>
+          <div className="md:text-xl text-lg font-bold">ClothingStore</div>
           </div></Link>
 
         <nav className="hidden md:flex space-x-8">
@@ -133,9 +133,9 @@ const Header = () => {
         </div>
       </div>
           
-      <div           ref={menuRef}
+      <div ref={menuRef}
 
-        className={`fixed inset-y-0 left-0 bg-white text-black  h-full  transform ${menuOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed inset-y-0 left-0 bg-white text-black  h-full w-3/4  transform ${menuOpen ? 'translate-x-0' : '-translate-x-full'
           } transition-transform duration-300 ease-in-out z-50`}
       >
         <div className="flex flex-col h-full">

@@ -9,6 +9,8 @@ const Checkout = () => {
   const [cartdata, setCart] = useState([]);
   const [step, setStep] = useState(1);
   const navigate =useNavigate()
+  const baseURL = import.meta.env.VITE_BACKEND_URL;
+
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -231,7 +233,7 @@ const Checkout = () => {
                   <li key={item.id} className="flex justify-between border-b pb-2">
                     <div className="flex gap-2">
                     <img 
-                    src={'https://ecommerce-backend-18rw.onrender.com'+item.product_image} 
+                    src={`${baseURL}`+item.product_image} 
                     alt={item.product_name} 
                     className="w-16 rounded-lg hover:opacity-75 object-contain" />         
                    <div className="mt-1"> 

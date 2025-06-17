@@ -13,6 +13,8 @@ import { useDispatch } from "react-redux";
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+    const baseURL = import.meta.env.VITE_BACKEND_URL;
+
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedSize,setSelectedSize]= useState()
   const token = localStorage.getItem("access_token");
@@ -20,7 +22,7 @@ const ProductDetail = () => {
 const navigate=useNavigate()
   useEffect(() => {
     axios
-      .get(`https://ecommerce-backend-18rw.onrender.com/products/${id}/`, {
+      .get(`${baseURL}/products/${id}/`, {
          })
       .then((response) => {
         setProduct(response.data);

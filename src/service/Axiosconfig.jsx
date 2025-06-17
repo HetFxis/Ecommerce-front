@@ -2,14 +2,14 @@ import axios from "axios";
 import { redirect } from "react-router-dom";
 // const navigate=useNavigate();
 const axiosInstance = axios.create({
-    baseURL : 'https://ecommerce-backend-18rw.onrender.com/',
+    baseURL : import.meta.env.VITE_BACKEND_URL
 })
 
 const RefreshAccessToken = async () => {
     try {
         const refresh_token = localStorage.getItem('refresh_token')
         console.log(refresh_token)
-        const response = await axios.post('https://ecommerce-backend-18rw.onrender.com/accounts/refreshtoken/',{refresh_token})
+        const response = await axios.post(`${baseUrl}/accounts/refreshtoken/`,{refresh_token})
         const newAccessToken = response.data.access_token
         localStorage.setItem('access_token',newAccessToken)
         return newAccessToken
@@ -46,7 +46,6 @@ axiosInstance.interceptors.response.use(
     },
     async (error) => {
         const IsAuthenticated=localStorage.getItem("IsAuthenticated")
-        console.log(IsAuthenticated)
         const OriginalRequest = error.config
         console.log(error.response)
         if (error.response && error.response.status === 401 && !OriginalRequest._retry&&IsAuthenticated) {
