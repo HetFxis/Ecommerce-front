@@ -90,7 +90,7 @@ const ProductList = ({ selectedCategory,selectedPrice }) => {
   };
 
   return (
-    <div className="flex flex-wrap lg:justify-start justify-center gap-8 p-8">
+    <div className="flex flex-wrap lg:justify-start justify-center gap-8 ">
       {products.length === 0 ? (
         <p>No product Found</p>
       ) : (
@@ -103,7 +103,7 @@ const ProductList = ({ selectedCategory,selectedPrice }) => {
               key={product.id}
               to={`/Detail/${product.id}`}
               onClick={checkLogin}
-              className="relative max-w-xs bg-white rounded-lg shadow-lg overflow-hidden p4"
+              className="relative max-w-xs bg-white rounded-lg  overflow-hidden p4"
               onMouseEnter={() => setHoveredProduct(product.id)}
               onMouseLeave={() => setHoveredProduct(null)}
             >
@@ -179,7 +179,7 @@ const ProductList = ({ selectedCategory,selectedPrice }) => {
                 </div>
 
                 {/* Description */}
-                <p className="text-sm text-gray-600 mt-2 line-clamp-2">{product.description}</p>
+                <p className="text-sm text-gray-600 mt-2 line-clamp-2 text-start">{product.description}</p>
 
                 {/* Price & Stock */}
                 <div className="mt-2 flex items-center justify-between">

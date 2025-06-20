@@ -13,7 +13,6 @@ import Footer from './Components/Footer';
 import ProductDetail from './Pages/Productdetail';
 import Cart from './Pages/Cart';
 import Checkout from './Pages/Checkout';
-import Myorder from './Pages/Myorder'
 import AboutPage from './Pages/About';
 import Orders from './Pages/orders';
 import { CartProvider } from "./CartContext";
@@ -42,7 +41,6 @@ const App = () => {
           <Route path="/Detail/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path='/checkout' element={<Checkout />} />
-          <Route path='/myorder' element={<Myorder />} />
           <Route path='/about' element={<AboutPage />} />
           <Route path='/orders' element={<Orders />} />
           <Route path='/order/:id' element={<OrderDetails />} />

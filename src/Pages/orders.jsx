@@ -4,11 +4,14 @@ import axios from "axios";
 import axiosInstance from "../service/Axiosconfig";
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([]);  
+  const [payment, setpayment] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchOrders();
+    fetchpayment()
   }, []);
 
   const fetchOrders = async () => {
@@ -16,6 +19,16 @@ const Orders = () => {
       const response = await axiosInstance.get("orders/", {
       });
       setOrders(response.data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    } finally {
+      setLoading(false);
+    }
+  }; const fetchpayment = async () => {
+    try {
+      const response = await axiosInstance.get("payment/orders/", {
+      });
+      setpayment(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
     } finally {
@@ -32,15 +45,16 @@ const Orders = () => {
         </div>      ) : (
         <div className="grid md:grid-cols-2 gap-6">
           {orders.map((order) => (
-            <div key={order.id} className="border rounded-lg p-4 shadow-lg bg-white hover:shadow-xl transition">
+                <Link to={`/order/${order.id}`} >
+                   <div key={order.id} className="border rounded-lg p-4 shadow-lg bg-white hover:shadow-xl transition">
               <h2 className="text-lg font-semibold">Order #{order.id}</h2>
               <p className="text-gray-600"><strong>Total Price:</strong> ₹{order.total_price}</p>
               <p className="text-gray-600"><strong>Full Name:</strong> {order.full_name}</p>
               
               <p className="text-gray-500"><strong>Date:</strong> {new Date(order.created_at).toLocaleString()}</p>
-              <p className="text-gray-500"><strong>status:</strong>{order.status}</p>
-              <Link to={`/order/${order.id}`} className="block mt-3 text-blue-600 font-medium hover:underline">View Details</Link>
-            </div>
+              <p className="text-gray-500"><strong>status:</strong>{payment.status}</p>
+         
+            </div></Link>
           ))}
         </div>
       )}

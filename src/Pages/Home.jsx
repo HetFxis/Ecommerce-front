@@ -5,7 +5,7 @@ import axios, { AxiosError } from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Footer from "../Components/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { FaStar, FaRegStar, FaStarHalfAlt, FaHeart, FaRegHeart, FaSearch, FaExchangeAlt } from 'react-icons/fa';
 import axiosInstance from "../service/Axiosconfig";
@@ -13,14 +13,10 @@ import DealOfTheWeek from "../Components/Divider";
 import InstagramSection from "../Components/instagram";
 import Banner from "../Components/Banner";
 import TestimonialSlider from "../Components/Feedbacke";
+import ProductList from "../Components/Product";
 const Home = () => {
-  const [products, setProducts] = useState([]);
   const { userid, IsAthenticated } = useSelector(state => state.auth)
   const baseURL = import.meta.env.VITE_BACKEND_URL;
-
-  const [wishlist, setWishlist] = useState({});
-  const [hoveredProduct, setHoveredProduct] = useState(null); // Track which product is hovered
-  const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
     axios.get(`${baseURL}/products/`
@@ -92,114 +88,13 @@ const Home = () => {
   };
   return (
     <div className="">
-
       <Banner />
-
-      {/* Featured Products Section */}
       <section className="py-16 bg-gray-50">
         <div className=" mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-8">Featured Products</h2>
           <div className="">
-            <div className="flex justify-center flex-wrap gap-8">
-
-              {products.length > 0 ? (
-                products.map((product, i) => {
-                  const avgRating = calculateRating(product.reviews);
-                  const isOnSale = product.original_price > product.price;
-
-                  return (
-
-                    <Link
-                      key={product.id}
-                      to='/shop'
-                      className="relative max-w-xs bg-white rounded-lg shadow-lg overflow-hidden p4"
-                      onMouseEnter={() => setHoveredProduct(product.id)}
-                      onMouseLeave={() => setHoveredProduct(null)}
-                    >
-                      {/* Product Image */}
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-64 object-cover rounded-t-lg"
-                      />
-
-                      {/* Wishlist & Action Buttons */}
-                      <div className="absolute top-3 right-3 flex flex-col gap-2">
-                        <motion.button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            toggleWishlist(product.id);
-                          }}
-                          variants={actionVariants}
-                          initial="hidden"
-                          animate={hoveredProduct === product.id ? "visible" : "hidden"}
-                          className="text-xl bg-white p-2 rounded-sm shadow-md"
-                        >
-                          {wishlist[product.id] ? (
-                            <FaHeart className="text-red-500" />
-                          ) : (
-                            <FaRegHeart className="text-gray-600 hover:text-red-500" />
-                          )}
-                        </motion.button>
-
-                        <motion.button
-                          variants={actionVariants}
-                          initial="hidden"
-                          animate={hoveredProduct === product.id ? "visible" : "hidden"}
-                          className="text-xl  bg-white p-2 rounded-sm shadow-md"
-                        >
-                          <FaSearch className="text-gray-600 " />
-                        </motion.button>
-
-                        <motion.button
-                          variants={actionVariants}
-                          initial="hidden"
-                          animate={hoveredProduct === product.id ? "visible" : "hidden"}
-                          className="text-xl bg-white p-2 rounded-sm shadow-md"
-                        >
-                          <FaExchangeAlt className="text-gray-600" />
-                        </motion.button>
-                      </div>
-
-                      <div className="p-4 relative my-3 ">
-                        <motion.div
-                          variants={addEffect}
-                          initial="hidden"
-                          animate={hoveredProduct === product.id ? "visible" : "hidden"}
-                          className="absolute top-2  text-base text-gray-600 font-bold rounded "
-                        >
-                          {product.brand}
-                        </motion.div>
-                        <motion.div
-                          variants={addEffect}
-                          initial="visible"
-                          animate={hoveredProduct === product.id ? "hidden" : "visible"}
-                          className="absolute top-2 text-lg text-gray-800 font-bold rounded"
-                        >
-                          {product.name}
-                        </motion.div>
-                        <div className="mt-8 flex items-center">
-                          {renderStars(avgRating)}
-                          <span className="ml-2 text-gray-600 text-sm">{product.review}</span>
-                        </div>
-
-
-                        {/* Description */}
-
-                        {/* Price & Stock */}
-                        <div className="mt-2 flex items-center justify-between">
-                          <p className="text-sm text-gray-600">In Stock: {product.stock}</p>
-                          <p className="text-xl font-bold text-blue-500">₹{product.price}</p>
-
-                        </div>
-                      </div>
-                    </Link>
-                  )
-                }
-                )
-              ) : (
-                <p>Please Login products...</p>
-              )}
+            <div className="flex justify-center ">
+            <ProductList/>
             </div>
           </div>
         </div>
@@ -207,10 +102,8 @@ const Home = () => {
       <div className="">
         <DealOfTheWeek />
         <InstagramSection />
-
       </div>     
       <div className=""><TestimonialSlider /></div>
-
       <Footer />
     </div>
   );

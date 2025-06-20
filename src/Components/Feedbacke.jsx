@@ -29,7 +29,7 @@ const testimonials = [
 
 export default function CubeTestimonialSlider() {
   return (
-    <section className="bg-gray-100 py-20 flex justify-center items-center">
+    <section className="bg-gradient-to-br from-gray-200 to-white  py-20 flex justify-center items-center">
       <div className="max-w-lg w-full px-4 text-center">
         <h2 className="text-3xl font-extrabold mb-10 text-gray-800">
           What Our Customers Say
@@ -45,7 +45,7 @@ export default function CubeTestimonialSlider() {
               shadowScale: 0.94,
             }}
             autoplay={{ 
-              delay: 3000,
+              delay: 2000,
               disableOnInteraction: false,
               pauseOnMouseEnter: true
             }}
@@ -61,23 +61,23 @@ export default function CubeTestimonialSlider() {
               <SwiperSlide
                 key={i}
                 className="flex flex-col items-center justify-center 
-                bg-gradient-to-br  from-sky-50 backdrop-blur-sm  
+                bg-gradient-to-br  from-sky-200 backdrop-blur-sm  
                  shadow-lg p-6 transition-all duration-300
                 hover:shadow-xl "
               >
-                <div className="relative mb-4 ">
+                <div className="relative  flex justify-center md:justify-start mb-4 ">
                   <img
                     src={t.image}
                     alt={t.name}
-                    className="w-20 h-20 rounded-full object-cover border-2 border-white/40 shadow-md"
+                    className="w-20 h-20   md:ml-2 rounded-full flex justify-center  object-cover border-2 border-white/40 shadow-md"
                   />
-                  <div className="absolute -bottom-1 -right-1 bg-indigo-500 rounded-full p-1">
+                  <div className="absolute -bottom-1 -right-1 bg-sky-700 rounded-full p-1">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
                     </svg>
                   </div>
                 </div>
-                <p className="text-sm text-gray-700 px-4 leading-relaxed mb-4">
+                <p className="text-sm text-gray-700 px-4 leading-relaxed mb-4 md:pt-">
                   "{t.feedback}"
                 </p>
                 <p className="mt-auto font-semibold text-gray-900">— {t.name}</p>

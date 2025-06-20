@@ -38,7 +38,7 @@ const OrderDetails = () => {
           <div key={index} className="border flex p-4 gap-8 rounded-lg shadow-md">
             <img src={`${baseURL}`+item.product.image} alt={item.product_name} className=" h-40 object-cover rounded-md" />
            <div className="flex flex-col"> <h4 className="text-lg font-semibold mt-2">{item.product_name}</h4>
-            <p>Price: ₹{item.product_price}</p>
+            <p>Price: ₹{item.product.price}</p>
             <p>Quantity: {item.quantity}</p>
             <p>Total: ₹{item.total}</p></div>
           </div>
@@ -49,4 +49,3 @@ const OrderDetails = () => {
   );
 };
 export default OrderDetails;
-  

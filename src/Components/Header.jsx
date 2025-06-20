@@ -54,22 +54,22 @@ const Header = () => {
         <nav className="hidden md:flex space-x-8">
 <Link to="/" className="group relative text-lg font-semibold">
   Home
-  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500 transition-all duration-200 group-hover:w-full"></span>
 </Link>
 
 <Link to="/shop" className="group relative text-lg font-semibold">
   Shop
-  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500 transition-all duration-200 group-hover:w-full"></span>
 </Link>
 
 <Link to="/about" className="group relative text-lg font-semibold">
   About
-  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500 transition-all duration-300 group-hover:w-full"></span>
+  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500 transition-all duration-200 group-hover:w-full"></span>
 </Link>
 
 <Link to="/contact" className="group relative text-lg font-semibold">
   Contact
-  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500  transition-all duration-300 group-hover:w-full"></span>
+  <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500  transition-all duration-200 group-hover:w-full"></span>
 </Link>
 
         </nav>

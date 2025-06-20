@@ -1,64 +1,75 @@
 import axios from "axios";
-import { redirect } from "react-router-dom";
+
 const axiosInstance = axios.create({
-    baseURL : import.meta.env.VITE_BACKEND_URL
-})
+  baseURL: import.meta.env.VITE_BACKEND_URL,
+});
+
 const RefreshAccessToken = async () => {
-    try {
-        const refresh_token = localStorage.getItem('refresh_token')
-        console.log(refresh_token)
-        const response = await axios.post(`${baseUrl}/accounts/refreshtoken/`,{refresh_token})
-        const newAccessToken = response.data.access_token
-        localStorage.setItem('access_token',newAccessToken)
-        return newAccessToken
-    } catch (error) {
-        console.log("et")
-        console.error('Error refreshing access token:', error);
-        redirect('/login')
-        throw error;
-    }
-} 
+  const baseURL = import.meta.env.VITE_BACKEND_URL;
+  try {
+    const refresh_token = localStorage.getItem("refresh_token");
+    const response = await axios.post(`${baseURL}/accounts/refreshtoken/`, {
+      refresh_token,
+    });
+    const newAccessToken = response.data.access_token;
+    localStorage.setItem("access_token", newAccessToken);
+    return newAccessToken;
+  } catch (error) {
+    console.error("Error refreshing access token:", error);
+    window.location.href = "/login";
+    throw error;
+  }
+};
+
+// Request Interceptor
 axiosInstance.interceptors.request.use(
-    async (config) => {
-        const access_token = localStorage.getItem('access_token')
-        const contentType = config.headers['content-type'] 
-        if (access_token) {
-            config.headers = {
-                ...config.headers,
-                "Content-Type": !contentType && "application/json",
-                "Authorization": `Bearer ${access_token}`
-            }
-        }
-        return config
-    },
-    (error) => {
-        console.log("return error")
-        return Promise.reject(error)
+  async (config) => {
+    const access_token = localStorage.getItem("access_token");
+
+    if (access_token) {
+      config.headers["Authorization"] = `Bearer ${access_token}`;
+      if (!config.headers["Content-Type"]) {
+        config.headers["Content-Type"] = "application/json";
+      }
     }
-)
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response Interceptor
 axiosInstance.interceptors.response.use(
-    (response) => {
-        return response
-    },
-    async (error) => {
-        const IsAuthenticated=localStorage.getItem("IsAuthenticated")
-        const OriginalRequest = error.config
-        console.log(error.response,'a')
-        if (error.response && error.response.status === 401 && !OriginalRequest._retry&&IsAuthenticated) {
-            OriginalRequest._retry = true
-            try {
-                const newAccessToken = await RefreshAccessToken()
-                OriginalRequest.headers.Authorization = `Bearer ${newAccessToken}`
-                return axios(OriginalRequest)
-            } catch (error) {
-                console.error('Error refreshing token:', error.message);
-                console.error(error);
-                return Promise.reject(error.message);
-            }
-        }
-        redirect("/login");
-        console.error('Error:', error)
-        return Promise.reject(error)
+  (response) => response,
+  async (error) => {
+    const IsAuthenticated = localStorage.getItem("IsAuthenticated");
+    const originalRequest = error.config;
+
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry &&
+      IsAuthenticated
+    ) {
+      originalRequest._retry = true;
+      try {
+        const newAccessToken = await RefreshAccessToken();
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return axios(originalRequest);
+      } catch (refreshError) {
+        window.location.href = "/login";
+        return Promise.reject(refreshError.message);
+      }
     }
-)
+
+    if (error.response && error.response.status === 401) {
+      window.location.href = "/login";
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 export default axiosInstance;

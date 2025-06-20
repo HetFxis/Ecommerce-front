@@ -12,13 +12,15 @@ import { useDispatch } from "react-redux";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-    const baseURL = import.meta.env.VITE_BACKEND_URL;
+  const [product, setProduct] = useState(null);  
+  const [quantity, setquantity] = useState(1);
+  const qua =[1,2,3,4]
   const [selectedImage, setSelectedImage] = useState("");
   const [selectedSize,setSelectedSize]= useState()
   const token = localStorage.getItem("access_token");
   const dispatch=useDispatch();
-const navigate=useNavigate()
+  const navigate=useNavigate()
+  const baseURL = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
     axios
       .get(`${baseURL}/products/${id}/`, {
@@ -35,7 +37,7 @@ const navigate=useNavigate()
     axiosInstance
       .post(
         "cart/",
-        { product_id: product.id, quantity: 1,selectedSize },
+        { product_id: product.id, quantity:quantity, selectedSize :selectedSize},
         { headers: { Authorization: `Bearer ${token}` } }
       )
       .then(() => {
@@ -48,7 +50,7 @@ const navigate=useNavigate()
           });
         
       })
-      .catch((error) => console.error("Error adding product to cart:", error));
+      .catch((error) => {   console.error("Error adding product to cart:", error)  (toast.error("Product is not add"))} );
   }
   else{
     toast.error("Login For Access")
@@ -71,6 +73,7 @@ return  }
 
   return (
     <div className="mx-auto py-32 ">
+ 
       <div className="flex flex-wrap justify-center  gap-20">
         <div className="flex flex-col justify-center ">
           <img
@@ -101,7 +104,7 @@ return  }
           </div>
         </div>
 
-         <div className="flex flex-col ">
+         <div className="flex flex-col ml-3 mr-3 ">
           <h1 className="text-3xl font-semibold text-gray-800">{product.name}</h1>
           <h2 className="text-xl text-gray-600 mt-2">{product.brand}</h2>
           <p className="text-lg mt-4 text-gray-800">{product.description}</p>
@@ -109,26 +112,45 @@ return  }
             <p className="text-xl font-bold text-blue-500">Rs {product.price}</p>
             <p className={`text-md ml-5 ${product.stock > 0 ? "text-green-600" : "text-red-500"}`}>
             {product.stock > 0 ? `In Stock (${product.stock} available)` : "Out of Stock"}
-          </p>          </div>
-                    {/* Size Selection */}
+          </p>       
+             </div>
                     {product.sizes && product.sizes.length > 0 && (
             <div className="mt-4">
               <label className="block  text-gray-700 font-semibold mb-2">Select Size:</label>
-              <select
-                className="border outline-none rounded px-4 py-2"
-                value={selectedSize}
-                onChange={(e) => setSelectedSize(e.target.value)}
-              >
+            
+                <div  className="flex flex-row md:gap-4 gap-3 " >
                 {product.sizes.map((size, index) => (
-                  <option key={index} value={size}>
-                    {size}
-                  </option>
-                ))}
-              </select>
-              <p className="text-gray-700 mt-2">product review {product.review}</p>
+  <div
+    key={index}
+    onClick={() => setSelectedSize(size)}
+    className={`md:px-4 md:py-2 px-3 py-1 flex items-center justify-center border rounded-md shadow-sm cursor-pointer transition duration-200
+      ${selectedSize === size ? 'bg-black font-bold text-white border-black' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'}
+    `}
+  >
+    {size}
+  </div>
+))}
+              </div> 
+              </div>
+            )}
+            <label className="block text-gray-700 font-semibold mb-2">Select Quantity:</label>
+<select
+  className="border  outline-none rounded px-4 py-2 w-20 text-gray-700 focus:ring-2 focus:ring-blue-500"
+value={quantity}
+onChange={(e) => setquantity(Number(e.target.value))}
 
-            </div>
-          )}
+>
+  {qua.map((qty, index) => (
+    <option key={index} className="bg-white p" value={qty}>
+      {qty}
+    </option>
+  ))}
+</select>
+
+<p className="text-gray-800 mt-3 text-sm">
+  Product Review: <span className="font-semibold text-black">{product.review}</span>
+</p>
+
 
           {/* Buttons */}
           <div className="mt-8 flex space-x-4">
