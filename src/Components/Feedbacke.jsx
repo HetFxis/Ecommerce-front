@@ -45,7 +45,8 @@ export default function CubeTestimonialSlider() {
               shadowScale: 0.94,
             }}
             autoplay={{ 
-              delay: 2000,
+              delay:4000,
+              
               disableOnInteraction: false,
               pauseOnMouseEnter: true
             }}

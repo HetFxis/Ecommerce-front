@@ -12,24 +12,17 @@ import axiosInstance from "../service/Axiosconfig";
 import DealOfTheWeek from "../Components/Divider";
 import InstagramSection from "../Components/instagram";
 import Banner from "../Components/Banner";
-import TestimonialSlider from "../Components/Feedbacke";
+import CubeTestimonialSlider from "../Components/Feedbacke";
 import ProductList from "../Components/Product";
 const Home = () => {
   const { userid, IsAthenticated } = useSelector(state => state.auth)
   const baseURL = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate()
-  useEffect(() => {
-    axios.get(`${baseURL}/products/`
-    )
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  
 
-        console.error("Error fetching products:", error)
-
-      });
-  }, []);
   const renderStars = (rating) => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
@@ -49,30 +42,7 @@ const Home = () => {
     return total / reviews.length;
   };
 
-  useEffect(() => {
-    if (IsAthenticated) {
-
-      axiosInstance.get(`user/profile/${userid}/`,
-      )
-        .then((response) => {
-          // console.log(response.data.data)
-          if (response.data.isadmin) {
-            navigate('/dashboard')
-          }
-          setProducts(response.data);
-        })
-        .catch((error) => {
-
-          console.error("Error fetching :", error)
-
-        });
-    }
-    else {
-      return
-    }
-
-  }
-    , [])
+  
 
 
   // Animation variants for wishlist & actions
@@ -94,7 +64,7 @@ const Home = () => {
           <h2 className="text-3xl font-bold mb-8">Featured Products</h2>
           <div className="">
             <div className="flex justify-center ">
-            <ProductList/>
+            <ProductList num={4}/>
             </div>
           </div>
         </div>
@@ -103,7 +73,7 @@ const Home = () => {
         <DealOfTheWeek />
         <InstagramSection />
       </div>     
-      <div className=""><TestimonialSlider /></div>
+      <div className=""><CubeTestimonialSlider /></div>
       <Footer />
     </div>
   );

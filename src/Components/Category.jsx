@@ -13,13 +13,15 @@ const CategorySidebar = ({ onCategorySelect,onPriceSelect,onFilterChange }) => {
   const [isSizeOpen, setIsSizeOpen] = useState(false);
   const [isBrandOpen, setIsBrandOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 
 
 
 
   useEffect(() => {
-    axiosInstance.get('categories/', {
+
+    axios.get(`${baseURL}/categories/`, {
      })
       .then(response => {
         setCategories(response.data);

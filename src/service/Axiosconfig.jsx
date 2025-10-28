@@ -16,8 +16,8 @@ const RefreshAccessToken = async () => {
     return newAccessToken;
   } catch (error) {
     console.error("Error refreshing access token:", error);
-    window.location.href = "/login";
-    throw error;
+ window.location.href = '/login';
+     throw error;
   }
 };
 
@@ -36,6 +36,7 @@ axiosInstance.interceptors.request.use(
     return config;
   },
   (error) => {
+    console.error("Request error:", error);
     return Promise.reject(error);
   }
 );
@@ -59,14 +60,12 @@ axiosInstance.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axios(originalRequest);
       } catch (refreshError) {
-        window.location.href = "/login";
         return Promise.reject(refreshError.message);
       }
     }
 
     if (error.response && error.response.status === 401) {
-      window.location.href = "/login";
-    }
+      localStorage.removeItem("access_token");}
 
     return Promise.reject(error);
   }

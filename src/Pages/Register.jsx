@@ -24,7 +24,7 @@ const RegisterPage = () => {
         setStep(2);
       }
     } catch (error) {
-      setError(error.response?.data?.error || 'Failed to send OTP');
+      toast.error(error.response?.data?.error || 'Failed to send OTP please try again');
     }
   };
 
@@ -37,7 +37,7 @@ const RegisterPage = () => {
         setStep(3);
       }
     } catch (error) {
-      setError(error.response?.data?.error || 'Invalid OTP');
+      toast.error(error.response?.data?.error || 'Invalid OTP');
     }
   };
 
@@ -74,6 +74,7 @@ const RegisterPage = () => {
             <h2 className="text-xl font-bold text-center text-gray-500 mb-4">Step 1: Enter Email</h2>
             <input
               type="email"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="example@gmail.com"

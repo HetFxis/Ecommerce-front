@@ -1,27 +1,32 @@
-import React, { createContext, useState, useEffect } from "react";
-import axios from "axios";
-import axiosInstance from "./service/Axiosconfig";
+// import { createContext, useState, useEffect } from "react";
+// import PropTypes from "prop-types";
+// import axiosInstance from "./service/Axiosconfig";
 
-export const CartContext = createContext();
+// export const CartContext = createContext();
 
-export const CartProvider = ({ children }) => {
-  const [cart, setCart] = useState([]);
-  const token = localStorage.getItem("access_token");
-  const IsAuthenticated = localStorage.getItem("IsAuthenticated")
-  useEffect(() => {
-    if(IsAuthenticated){
-    axiosInstance
-      .get("cart/")
-      .then((response) => setCart(response.data))
-      .catch((error) => console.error("Error fetching cart:", error));
-  }}, []);
-  useEffect(()=>{
-    setCart(cart)
-  },[cart])
+// export const CartProvider = ({ children }) => {
+//   const [cart, setCart] = useState([]);
 
-  return (
-    <CartContext.Provider value={{ cart, setCart }}>
-      {children}
-    </CartContext.Provider>
-  );
-};
+//   const IsAuthenticated = localStorage.getItem("IsAuthenticated")
+//   useEffect(() => {
+//     if(IsAuthenticated){
+//     axiosInstance
+//       .get("cart/")
+//       .then((response) => setCart(response.data))
+//       .catch((error) => console.error("Error fetching cart:", error));
+//   }}, [IsAuthenticated]);
+//   useEffect(()=>{
+//     setCart(cart)
+//     console.log(cart)
+//   },[cart])
+
+//   return (
+//     <CartContext.Provider value={{ cart, setCart }}>
+//       {children}
+//     </CartContext.Provider>
+//   );
+// };
+
+// CartProvider.propTypes = {
+//   children: PropTypes.node.isRequired,
+// };
