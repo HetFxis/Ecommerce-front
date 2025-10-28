@@ -10,7 +10,6 @@ const Profile = () => {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
   const { userid, token, IsAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -24,7 +23,7 @@ const Profile = () => {
         const response = await axiosInstance.get(`user/profile/${userid}/`);
         setProfile(response.data);
         setFormData(response.data);
-        setLoading(false);
+        setLoading(false);  
       } catch (err) {
         console.error("Error fetching profile:", err);
         setError("Failed to load profile. Please try again.");
@@ -43,14 +42,14 @@ const Profile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsEditing(false);
     try {
       const response = await axiosInstance.put(`user/profile/${userid}/`, formData);
       setProfile(response.data);
       toast.success("Profile updated successfully!");
+      setIsEditing(false);
     } catch (err) {
       console.error("Error updating profile:", err);
-      toast.error("Failed to update profile. Please try again.");
+      toast.error(err);
     }
   };
 
@@ -59,7 +58,7 @@ const Profile = () => {
       try {
         await axiosInstance.delete(`user/profile/${userid}/`);
         localStorage.clear();
-        navigate("/register");
+         ("/register");
         toast.success("Account deleted successfully!");
       } catch (error) {
         console.error("Error deleting profile:", error);
@@ -79,7 +78,7 @@ const Profile = () => {
            
             <img
               className="w-24 h-24 rounded-full "
-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkuHGQcoh2XCa6j_kBji17CIrfC0YMdzKaeyH7nVWmLTK91zTcEeisGgAl_YEZnItoioE&usqp=CAU"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkuHGQcoh2XCa6j_kBji17CIrfC0YMdzKaeyH7nVWmLTK91zTcEeisGgAl_YEZnItoioE&usqp=CAU"
               alt="User Avatar"
             />
             <h2 className="text-2xl font-semibold text-gray-800 mt-4">{formData.username}</h2>

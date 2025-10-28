@@ -24,7 +24,7 @@ const RegisterPage = () => {
         setStep(2);
       }
     } catch (error) {
-      setError(error.response?.data?.error || 'Failed to send OTP');
+      toast.error(error.response?.data?.error || 'Failed to send OTP please try again');
     }
   };
 
@@ -37,7 +37,7 @@ const RegisterPage = () => {
         setStep(3);
       }
     } catch (error) {
-      setError(error.response?.data?.error || 'Invalid OTP');
+      toast.error(error.response?.data?.error || 'Invalid OTP');
     }
   };
 
@@ -74,11 +74,12 @@ const RegisterPage = () => {
             <h2 className="text-xl font-bold text-center text-gray-500 mb-4">Step 1: Enter Email</h2>
             <input
               type="email"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="example@gmail.com"
-              required
-              formNoValidate
+              required="email"
+            
               className="w-full px-4 py-2 border rounded-md mb-4"
             />
             <button onClick={handleSendOtp} className="w-full bg-blue-500 text-white py-2 rounded-md">
@@ -86,10 +87,9 @@ const RegisterPage = () => {
             </button>
           </>
         )}
-
         {step === 2 && (
           <>
-            <h2 className="text-xl font-bold text-center text-gray-500 mb-4">Step 2: OTP is send on {email} <br></br> please enter to verify</h2>
+            <h2 className="text-xl font-bold text-center text-gray-500 mb-4">Step 2: OTP is send on <span className='text-gray-700 '>{email} </span><br></br> <br></br> please enter OTP to verify</h2>
             <input
               type="text"
               value={otp}

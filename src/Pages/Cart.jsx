@@ -13,7 +13,6 @@ const Cart = () => {
 
   useEffect(() => {
     axiosInstance.get('cart/', {
-      headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
         setCart(response.data);

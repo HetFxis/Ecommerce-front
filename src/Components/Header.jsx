@@ -1,29 +1,23 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUserLarge } from "react-icons/fa6";
 import { IoMdCart } from "react-icons/io";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
-import { CartContext } from "../CartContext";
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../redux/authSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/authSlice";
 import { IoIosLogOut } from "react-icons/io";
 
-import logo from '../../public/logo.png'
+import logo from "../../public/logo.png";
 const Header = () => {
-  const { cart } = useContext(CartContext);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [count, setcount] = useState();// State for side menu
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const menuRef = useRef(null);
-// const IsAuthenticated=localStorage.getItem("IsAuthenticated")
+  // const IsAuthenticated=localStorage.getItem("IsAuthenticated")
   const [profileOpen, setProfileOpen] = useState(false);
-  const { quantity } = useSelector(state => state.cart);
-  const { token, IsAuthenticated } = useSelector((state) => state.auth);
+  const { IsAuthenticated } = useSelector((state) => state.auth);
   const { items } = useSelector((state) => state.cart);
-  useEffect(() => {
-    setcount(cart.length)
-  }, [cart])
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -37,25 +31,41 @@ const Header = () => {
     };
   }, []);
   const handleLogout = () => {
-    dispatch(logout())
-    setMenuOpen(false)
-    navigate('/login');
+    dispatch(logout());
+    setMenuOpen(false);
+    navigate("/login");
   };
 
   return (
     <header className="shadow-md py-4 px-1 md:px-5 bg-white relative">
       <div className=" flex max-w-7xl mx-auto justify-between items-center">
-      <Link to="/" className=''>
-      <div className="flex w-12 place-items-center">
-        <img src={logo} alt="" classname=" "/>
-          <div className="md:text-xl text-lg font-bold">ClothingStore</div>
-          </div></Link>
+        <Link to="/" className="">
+          <div className="flex w-12 place-items-center">
+            <img src={logo} alt="" />
+            <div className="md:text-xl text-lg font-bold">ClothingStore</div>
+          </div>
+        </Link>
 
         <nav className="hidden md:flex space-x-8">
-          <Link to="/" className="hover:border-b-2 hover:border-black text-lg font-semibold">Home</Link>
-          <Link to="/shop" className="hover:border-b-2 hover:border-black text-lg font-semibold">Shop</Link>
-          <Link to="/about" className="hover:border-b-2 hover:border-black text-lg font-semibold">About</Link>
-          <Link to="/contact" className="  hover:border-b-2 hover:border-black  text-lg font-semibold">Contact</Link>
+          <Link to="/"   className="group relative text-lg font-semibold">
+            Home
+            <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500 transition-all duration-200 group-hover:w-full"></span>
+          </Link>
+
+          <Link to="/shop" className="group relative text-lg font-semibold">
+            Shop
+            <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500 transition-all duration-200 group-hover:w-full"></span>
+          </Link>
+
+          <Link to="/about" className="group relative text-lg font-semibold">
+            About
+            <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500 transition-all duration-200 group-hover:w-full"></span>
+          </Link>
+
+          <Link to="/contact" className="group relative text-lg font-semibold">
+            Contact
+            <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-orange-500  transition-all duration-200 group-hover:w-full"></span>
+          </Link>
         </nav>
 
         <div className="hidden md:flex ">
@@ -67,17 +77,17 @@ const Header = () => {
               Login
             </Link>
           ) : (
-            <> 
-             <Link to="/cart" className="relative">
-      <IoMdCart className="md:size-6 hover:scale-110 transform duration-200" />
-      
-      {/* Badge for cart count */}
-      {items > 0 && ( 
-        <span className="absolute  bg-gray-300 -top-3 -right-3 text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-          {items  }
-        </span>
-      )} 
-    </Link>
+            <>
+              <Link to="/cart" className="relative">
+                <IoMdCart className="md:size-6 hover:scale-110 transform duration-200" />
+
+                {/* Badge for cart count */}
+                {items > 0 && (
+                  <span className="absolute  bg-gray-300 -top-3 -right-3 text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                    {items}
+                  </span>
+                )}
+              </Link>
               <div
                 className="relative "
                 onMouseEnter={() => setProfileOpen(true)}
@@ -108,7 +118,7 @@ const Header = () => {
                       }}
                       className=" w-full flex text-left px-4 py-2 font-bold text-gray-700 hover:bg-gray-100"
                     >
-                      <IoIosLogOut className='size-6 pr-1'/>
+                      <IoIosLogOut className="size-6 pr-1" />
                       Logout
                     </button>
                   </div>
@@ -124,19 +134,16 @@ const Header = () => {
             onClick={() => setMenuOpen(!menuOpen)}
             className="text-gray-800 hover:text-gray-600 focus:outline-none"
           >
-            {menuOpen ? (
-              <p></p>
-            ) : (
-              <HiOutlineMenu className="w-7 h-7" />
-            )}
+            {menuOpen ? <p></p> : <HiOutlineMenu className="w-7 h-7" />}
           </button>
         </div>
       </div>
-          
-      <div ref={menuRef}
 
-        className={`fixed inset-y-0 left-0 bg-white text-black  h-full w-3/4  transform ${menuOpen ? 'translate-x-0' : '-translate-x-full'
-          } transition-transform duration-300 ease-in-out z-50`}
+      <div
+        ref={menuRef}
+        className={`fixed inset-y-0 left-0 bg-white text-black  h-full w-3/4  transform ${
+          menuOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out z-50`}
       >
         <div className="flex flex-col h-full">
           <div className="p-4 flex justify-between items-center">
@@ -164,7 +171,6 @@ const Header = () => {
                   to="/profile"
                   className="py-3 px-1 rounded hover:scale-110 ease-in-out transform duration-200"
                   onClick={() => setMenuOpen(false)}
-
                 >
                   <FaUserLarge className="size-5" />
                 </Link>
@@ -172,17 +178,16 @@ const Header = () => {
                   to="/cart"
                   className="py-[10px] md:px-1 pr-20 relative rounded"
                   onClick={() => setMenuOpen(false)}
-
                 >
                   <IoMdCart className="size-6 " />
-                  {count > 0 && (
+                  {items > 0 && (
                     <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full px-2">
-                      {quantity}
-                    </span>)}
+                      {items}
+                    </span>
+                  )}
                 </Link>
                 <button
-                  onClick={handleLogout}
-                  setMenuOpen={false}
+                  onClick={()=>{handleLogout, setMenuOpen(false)}}
                   className="text-gray-800  bg-gray-200 py-2 px-4 rounded text-lg hover:scale-90 ease-in-out transform duration-200"
                 >
                   Logout

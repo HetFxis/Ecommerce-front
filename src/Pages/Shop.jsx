@@ -18,7 +18,7 @@ const App = () => {
     <div className="flex  max-w-7xl mx-auto flex-wrap  min-h-screen">
       <Category onCategorySelect={handleCategorySelect}
       onPriceSelect={handlePriceSelect} />
-      <div className="flex-1 p-6 bg-white">
+      <div  className="flex-1 p-6 bg-white">
         <Product selectedCategory={selectedCategory}  selectedPrice={selectedPrice}/>
       </div>
     </div></div>

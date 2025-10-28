@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import axiosInstance from '../service/Axiosconfig';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { toast, ToastContainer } from 'react-toastify';
 import { FaStar, FaRegStar, FaStarHalfAlt, FaHeart, FaRegHeart, FaSearch, FaExchangeAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
-const ProductList = ({ selectedCategory,selectedPrice }) => {
+const ProductList = ({ num,selectedCategory,selectedPrice }) => {
   const [products, setProducts] = useState([]);
   const { token } = useSelector(state => state.auth);
   const [wishlist, setWishlist] = useState({});
@@ -21,6 +22,9 @@ const ProductList = ({ selectedCategory,selectedPrice }) => {
           : `${baseURL}/products/`;
         const response = await axios.get(url);
         setProducts(response.data);
+        console.log(response.data)
+   
+
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -28,27 +32,7 @@ const ProductList = ({ selectedCategory,selectedPrice }) => {
 
     fetchProducts();
   }, [selectedCategory]);
-  const handleAddToCart = () => {
-    if(token){
-    axiosInstance
-      .post(
-        "cart/",
-        { product_id: product.id, quantity: 1 },
-        { headers: { Authorization: `Bearer ${token}` } }
-      )
-      .then(() => {
-        toast.success("Added to cart!");
-      })
-      .catch((error) => console.error("Error adding product to cart:", error));
-  }
-  else{
-    toast.error("Login For Access")
-  }}
-  const checkLogin = () => {
-    if (!token) {
-      toast.error("Login for Access");
-    }
-  };
+ 
 
   const toggleWishlist = (productId) => {
     setWishlist((prev) => ({
@@ -90,11 +74,11 @@ const ProductList = ({ selectedCategory,selectedPrice }) => {
   };
 
   return (
-    <div className="flex flex-wrap lg:justify-start justify-center gap-8 p-8">
-      {products.length === 0 ? (
+    <div className="flex flex-wrap lg:justify-start justify-center gap-8 ">
+      {products?.length === 0 ? (
         <p>No product Found</p>
       ) : (
-        products.map((product) => {
+        products.slice(0, num).map((product) => {
           const avgRating = calculateRating(product.reviews);
           const isOnSale = product.original_price > product.price;
 
@@ -102,8 +86,7 @@ const ProductList = ({ selectedCategory,selectedPrice }) => {
             <Link
               key={product.id}
               to={`/Detail/${product.id}`}
-              onClick={checkLogin}
-              className="relative max-w-xs bg-white rounded-lg shadow-lg overflow-hidden p4"
+              className="relative max-w-xs bg-white rounded-lg  overflow-hidden p4"
               onMouseEnter={() => setHoveredProduct(product.id)}
               onMouseLeave={() => setHoveredProduct(null)}
             >
@@ -179,10 +162,10 @@ const ProductList = ({ selectedCategory,selectedPrice }) => {
                 </div>
 
                 {/* Description */}
-                <p className="text-sm text-gray-600 mt-2 line-clamp-2">{product.description}</p>
+                <p className="text-sm text-gray-600 mt-2 line-clamp-2 text-start">{product.description}</p>
 
                 {/* Price & Stock */}
-                <div className="mt-2 flex items-center justify-between">
+                <div className="mt-2  flex items-center justify-between">
                   <p className="text-sm text-gray-600">In Stock: {product.stock}</p>
                   <div>
                     {isOnSale ? (
